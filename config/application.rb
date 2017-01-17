@@ -37,18 +37,36 @@ module ShowHockApi
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+#     config.active_record.raise_in_transactional_callbacks = true
+#
+#     # Cross-Origin Resource Sharing
+#     # development client port
+#     cors_port = 'GA'.each_byte.reduce('') { |a, e| a + format('%d', e) }.to_i
+#     config.middleware.insert_before 0, Rack::Cors do
+#       allow do
+#         origins do |origin, _env|
+#           '*' == ENV['CLIENT_ORIGIN'] ||
+#             origin == ENV['CLIENT_ORIGIN'] ||
+#             origin == "http://localhost:#{cors_port}"
+#         end
+#         resource '*',
+#                  headers: :any,
+#                  methods: [:options, :get,
+#                            :post, :patch, :put, :delete]
+#       end
+#     end
+#   end
+# end
+
+config.active_record.raise_in_transactional_callbacks = true
 
     # Cross-Origin Resource Sharing
     # development client port
     cors_port = 'GA'.each_byte.reduce('') { |a, e| a + format('%d', e) }.to_i
-    config.middleware.insert_before 0, Rack::Cors do
+    config.middleware.use Rack::Cors do
       allow do
-        origins do |origin, _env|
-          '*' == ENV['CLIENT_ORIGIN'] ||
-            origin == ENV['CLIENT_ORIGIN'] ||
-            origin == "http://localhost:#{cors_port}"
-        end
+        # origins ENV['CLIENT_ORIGIN'] || "http://localhost:#{cors_port}"
+        origins ENV['CLIENT_ORIGIN'] || 'http://localhost:4200'
         resource '*',
                  headers: :any,
                  methods: [:options, :get,
