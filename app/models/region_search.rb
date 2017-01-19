@@ -2,10 +2,11 @@ require 'unirest'
 
 class RegionSearch
   def initialize(param)
-    @body = Unirest.get(('http://api.songkick.com/api/3.0/search/locations.json?query=' + param.to_s + '&apikey=Ua1DQXRC1So9StKN'),
-      headers: {
+    @body = Unirest.get((
+    'http://api.songkick.com/api/3.0/search/locations.json?query=' + param.to_s + '&apikey=' + ENV['songkick_key']),
+    headers: {
       'Accept' => 'application/json'
-      }).body
+    }).body
   end
 
   def result

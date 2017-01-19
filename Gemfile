@@ -9,6 +9,7 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'pg'
 gem 'bcrypt', '~> 3.1.11'
+gem 'figaro'
 gem 'unirest', '~>1.1.2'
 
 group :production do

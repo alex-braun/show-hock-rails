@@ -270,3 +270,6 @@ config/initializers/secret_token.rb
 /libpeerconnection.log
 npm-debug.log
 testem.log
+
+# Ignore application configuration
+/config/application.yml
