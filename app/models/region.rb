@@ -29,12 +29,17 @@ class Region
         'current_page' => @body['resultsPage']['page'],
         'location' => @location.to_s
       }
+
       @clean.each_index do |i|
         @clean[i]['performance'].each_index do |j|
           @artist = @clean[i]['performance'][j]['artist']
           @artist[:imageUrl] =
           'http://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
+        end
+        if @clean[i]['type'] == 'Festival'
+          @clean[i][:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/events/' +
+          @clean[i]['id'].to_s + '/large_avatar'
         end
       end
       @result = {
