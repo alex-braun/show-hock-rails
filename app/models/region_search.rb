@@ -1,10 +1,14 @@
 require 'unirest'
+require 'addressable/uri'
 
 class RegionSearch
   def initialize(param)
+    @uri = Addressable::URI.parse(param)
+    @normalize = @uri.normalize
+    @param = param.to_s
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?query=' +
-    param.to_s + '&apikey=' + ENV['songkick_key']),
+    @normalize.to_s + '&per_page=10&apikey=' + ENV['songkick_key']),
     headers: {
       'Accept' => 'application/json'
     }).body
@@ -13,18 +17,30 @@ class RegionSearch
   def result
     @response = @body['resultsPage']['results']
     if @response == {}
-      @response[:metroArea] = { 'displayName' => "Sorry, we've found no events
-        in that region.  Please try another area." }
-      @response[:id] = "Sorry, we've found no events in that region.
-      Please try another area."
+      @response[:id] = @param.to_s
       @response[:noMatch] = true
-      @result = { 'region_search' => [@response] }
+      @displayName = { 'displayName' => @param.to_s }
+      @metro = { 'metroArea' => @displayName,
+                'noMatch' => true }
+      @response[:location] = [@metro]
+      @result = { 'region_search' => @response }
     else
-      @clean = @body['resultsPage']['results']['location']
-      @clean.each_index do |i|
-        @clean[i][:id] = @clean[i]['metroArea']['id']
+      @clean = @body['resultsPage']['results']
+      @clean[:id] = @param.to_s
+      @clean['location'].each_index do |i|
+        @clean['location'][i][:id] = @clean['location'][i]['metroArea']['id']
+        @metroArea = @clean['location'][i]['metroArea']
+        @lat = @clean['location'][i]['metroArea']['lat']
+        @lng = @clean['location'][i]['metroArea']['lng']
+        @metroArea[:googleMapUrl] = 'https://maps.googleapis.com/maps/api/staticmap?center=' + @lat.to_s + ',' + @lng.to_s + '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' + @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
       end
-      @result = { 'region_search' => @clean }
+      @meta = {
+        'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,
+        'current_page' => @body['resultsPage']['page'],
+        'total_entries' => @body['resultsPage']['totalEntries']
+      }
+      @clean[:meta] = @meta
+      @result = { 'region_search' => @clean, }
     end
   end
 end
