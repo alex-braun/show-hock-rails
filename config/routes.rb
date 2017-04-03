@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  resources :venue_searches, except: [:new, :edit]
   resources :artist_states, except: [:new, :edit]
   resources :locations, except: [:new, :edit]
   resources :concerts, except: [:new, :edit]
