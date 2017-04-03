@@ -32,7 +32,11 @@ class RegionSearch
         @metroArea = @clean['location'][i]['metroArea']
         @lat = @clean['location'][i]['metroArea']['lat']
         @lng = @clean['location'][i]['metroArea']['lng']
-        @metroArea[:googleMapUrl] = 'https://maps.googleapis.com/maps/api/staticmap?center=' + @lat.to_s + ',' + @lng.to_s + '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' + @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
+        @metroArea[:googleMapUrl] =
+          'https://maps.googleapis.com/maps/api/staticmap?center=' +
+          @lat.to_s + ',' + @lng.to_s +
+          '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
+          @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
       end
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,
@@ -40,7 +44,7 @@ class RegionSearch
         'total_entries' => @body['resultsPage']['totalEntries']
       }
       @clean[:meta] = @meta
-      @result = { 'region_search' => @clean, }
+      @result = { 'region_search' => @clean }
     end
   end
 end

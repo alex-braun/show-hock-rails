@@ -27,19 +27,28 @@ class Region
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
+        'total_entries' => @body['resultsPage']['totalEntries']
       }
       @clean[:meta] = @meta
 
       @clean['event'].each_index do |i|
+        @first_performance = @clean['event'][i]['performance'].first
+        unless @first_performance == nil
+          @headline_artist = @first_performance['artist']['id']
+          @clean['event'][i][:headlineArtist] = @headline_artist
+        end
+      end
+
+      @clean['event'].each_index do |i|
         @clean['event'][i]['performance'].each_index do |j|
           @artist = @clean['event'][i]['performance'][j]['artist']
-          @artist[:imageUrl] =
-          'http://images.sk-static.com/images/media/profile_images/artists/' +
+          @artist[:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
         if @clean['event'][i]['type'] == 'Festival'
-          @clean['event'][i][:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/events/' +
-          @clean['event'][i]['id'].to_s + '/huge_avatar'
+          @clean['event'][i][:imageUrl] =
+            'http://images.sk-static.com/images/media/profile_images/events/' +
+            @clean['event'][i]['id'].to_s + '/huge_avatar'
         end
       end
       @result = { 'region' => @clean }

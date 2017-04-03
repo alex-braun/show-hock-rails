@@ -10,9 +10,7 @@ class ArtistSearch
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/artists.json?query=' +
     @normalize.to_s + '&apikey=' + ENV['songkick_key']),
-    headers: {
-      'Accept' => 'application/json'
-    }).body
+    headers: { 'Accept' => 'application/json' } ).body
   end
 
   def result
