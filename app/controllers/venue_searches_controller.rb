@@ -1,4 +1,4 @@
-class VenueSearchesController < ApplicationController
+class VenueSearchesController < OpenReadController
   # before_action :set_venue_search, only: [:show, :update, :destroy]
 
   # GET /venue_searches
