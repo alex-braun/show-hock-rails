@@ -18,7 +18,6 @@ class VenueSearch < ActiveRecord::Base
   def result
     @response = @body['resultsPage']['results']
     if @response == {}
-      # @response[:displayName] = "Sorry, we've found no venues matching that name. Please try again"
       @response[:id] = @venue_name.to_s
       @response[:noMatch] = true
       @displayName = { 'displayName' => @venue_name.to_s }
@@ -34,30 +33,6 @@ class VenueSearch < ActiveRecord::Base
       @response[:venue] = [@venue]
       @result = { 'venue_search' => @response }
     else
-
-      # @response = @body['resultsPage']['results']
-      # if @response == {}
-      #   @response[:id] = @param.to_s
-      #   @response[:noMatch] = true
-      #   @displayName = { 'displayName' => @param.to_s }
-      #   @metro = { 'metroArea' => @displayName,
-      #             'noMatch' => true }
-      #   @response[:location] = [@metro]
-      #   @meta = {
-      #     'total_pages' => 0,
-      #     'current_page' => 0,
-      #     'total_entries' => 0
-      #   }
-      #   @response[:meta] = @meta
-      #   @result = { 'region_search' => @response }
-      # else
-
-
-
-
-
-
-
       @clean = @body['resultsPage']['results']
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / @per_page.to_f).ceil,

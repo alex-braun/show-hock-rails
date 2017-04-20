@@ -4,11 +4,7 @@ class ArtistState < ActiveRecord::Base
   def initialize(params)
     @get_id = params.fetch(:id)
     @user_loc = params.fetch(:user_loc)
-
-    #
-    # @get_id = params.fetch(:get_id)
     @page = params.fetch(:page)
-    # @artist = params.fetch(:artist)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + ENV['songkick_key']),
     headers: {
@@ -24,23 +20,10 @@ class ArtistState < ActiveRecord::Base
       @event = { 'performance' => @artist_name,
                   'noMatch' => true }
       @response[:event] = [@event]
-      # @meta = {
-      #   'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
-      #   'current_page' => @body['resultsPage']['page'],
-      #   'total_entries' => @body['resultsPage']['totalEntries'],
-      #   'imageUrl' => 'http://images.sk-static.com/images/media/profile_images/artists/' +
-      #   @get_id.to_s + '/huge_avatar'
-      # }
-      # @response[:meta] = @meta
       @result = { 'artist' => @response }
     else
       @clean = @body['resultsPage']['results']
       @clean[:id] = @get_id.to_f
-      # @meta = {
-      #   'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
-      #   'current_page' => @body['resultsPage']['page'],
-      #   'total_entries' => @body['resultsPage']['totalEntries']
-      # }
 
       @clean['event'].each_index do |i|
         @clean['event'][i]['performance'].each_index do |j|

@@ -21,8 +21,3 @@ class Location < ActiveRecord::Base
     @result = { 'location' => @clean }
   end
 end
-# Ua1DQXRC1So9StKN
-
-
-
-# http://api.songkick.com/api/3.0/search/locations.json?location=geo:38.0297,-84.4947&per_page=50&apikey=Ua1DQXRC1So9StKN

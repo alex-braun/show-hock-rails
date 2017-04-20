@@ -17,12 +17,6 @@ class Venue < ActiveRecord::Base
     @clean['id'].to_s + '/col4'
     if @lat == nil || @lng == nil
       @clean[:noCoords] = true
-    #   @clean[:googleMapUrl] = 'https://maps.googleapis.com/maps/api/staticmap?center=' +
-    #   @lat.to_s + ',' + @lng.to_s +
-    #   '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
-    #   @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
-    # else
-
     end
     @result = { 'venue' => @clean }
   end

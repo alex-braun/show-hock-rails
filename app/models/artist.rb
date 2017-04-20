@@ -11,10 +11,7 @@ class Artist < ActiveRecord::Base
     if params.fetch(:max_date) == ''
       @max_date = ''
     end
-    #
-    # @get_id = params.fetch(:get_id)
     @page = params.fetch(:page)
-    # @artist = params.fetch(:artist)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + @min_date + @max_date + '&apikey=' + ENV['songkick_key']),
     headers: {
@@ -26,8 +23,6 @@ class Artist < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @get_id.to_f
-
-      # @response[:noMatch] = true
       @artist_name = { 'displayName' => 'No Events for the artist' }
       @event = { 'performance' => @artist_name,
                   'noMatch' => true }
@@ -40,8 +35,6 @@ class Artist < ActiveRecord::Base
         'max_date' => @max_date,
         'imageUrl' => 'http://images.sk-static.com/images/media/profile_images/artists/' +
         @get_id.to_s + '/huge_avatar'
-        # 'http://images.sk-static.com/images/media/profile_images/artists/' +
-        # @artist['id'].to_s + '/huge_avatar'
       }
       @response[:meta] = @meta
       @result = { 'artist' => @response }
@@ -76,10 +69,7 @@ class Artist < ActiveRecord::Base
       @clean[:meta] = @meta
       @result = {
         'artist' => @clean,
-        # 'meta' => @meta
       }
     end
   end
 end
-
-# http://api.songkick.com/api/3.0/artists/2596951/calendar.json?page=1&min_date=2017-04-06&apikey=Ua1DQXRC1So9StKN

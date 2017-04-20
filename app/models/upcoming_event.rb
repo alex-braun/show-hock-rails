@@ -43,8 +43,6 @@ class UpcomingEvent < ActiveRecord::Base
         'artist' => @artist.to_s,
         'clientLocation' => @body['resultsPage']['clientLocation']
       }
-
-      # @result = { 'upcoming_event' => @clean }
       @result = { 'upcoming_event' => @clean,
                   'meta' => @meta }
     end

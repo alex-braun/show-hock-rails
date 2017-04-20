@@ -36,17 +36,3 @@ class VenueCalendar < ActiveRecord::Base
     @result = { 'venue_calendar' => @response }
   end
 end
-
-
-# {
-# "venue_calendar": {
-#   "event": [
-#   {
-#   "displayName": "No upcoming events found",
-#   "noEvents": true,
-    ""
-#   }
-# ],
-# "id": 2135034
-# }
-# }

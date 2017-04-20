@@ -3,7 +3,6 @@ require 'unirest'
 class SimilarArtist < ActiveRecord::Base
   def initialize(param)
     @param = param
-    # @artist = params.fetch(:artist)
     @body = Unirest.get((
       'http://api.songkick.com/api/3.0/artists/' + param.to_s +
       '/similar_artists.json?per_page=10&apikey=' + ENV['songkick_key']),
@@ -22,7 +21,6 @@ class SimilarArtist < ActiveRecord::Base
                   'noMatch' => true }
       @response[:artist] = [@artist]
 
-      # @response[:performance] = @artist_name
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],

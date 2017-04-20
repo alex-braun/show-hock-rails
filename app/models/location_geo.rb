@@ -4,8 +4,6 @@ require 'addressable/uri'
 class LocationGeo < ActiveRecord::Base
 
   def initialize(param)
-    # @uri = Addressable::URI.parse(param)
-    # @client_ip_norm = @uri.normalize
     @lat = param.fetch(:lat).to_s
     @lng = param.fetch(:lng).to_s
     @body = Unirest.get((
