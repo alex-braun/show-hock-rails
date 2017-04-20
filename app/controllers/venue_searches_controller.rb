@@ -12,7 +12,7 @@ class VenueSearchesController < OpenReadController
   # GET /venue_searches/1
   # GET /venue_searches/1.json
   def show
-    @venue_search = VenueSearch.new(params[:id]).result
+    @venue_search = VenueSearch.new(id: params[:id], per_page: params[:per_page], page: params[:page]).result
 
     render json: @venue_search
   end

@@ -11,7 +11,7 @@ class UpcomingEvent < ActiveRecord::Base
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/events.json?apikey=' +
     ENV['songkick_key'] + '&artist_name=' + @normalize.to_s +
-    '&location=ip:' + @location),
+    '&location=sk:' + @location),
       headers: {
         'Accept' => 'application/json'
               }).body

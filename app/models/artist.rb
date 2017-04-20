@@ -3,12 +3,20 @@ require 'unirest'
 class Artist < ActiveRecord::Base
   def initialize(params)
     @get_id = params.fetch(:id)
+    @min_date = '&min_date=' + params.fetch(:min_date).to_s
+    @max_date = '&max_date=' + params.fetch(:max_date).to_s
+    if params.fetch(:min_date) == ''
+      @min_date = ''
+    end
+    if params.fetch(:max_date) == ''
+      @max_date = ''
+    end
     #
     # @get_id = params.fetch(:get_id)
     @page = params.fetch(:page)
     # @artist = params.fetch(:artist)
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + '&apikey=' + ENV['songkick_key']),
+    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + @min_date + @max_date + '&apikey=' + ENV['songkick_key']),
     headers: {
       'Accept' => 'application/json'
     }).body
@@ -28,6 +36,8 @@ class Artist < ActiveRecord::Base
         'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries'],
+        'min_date' => @min_date,
+        'max_date' => @max_date,
         'imageUrl' => 'http://images.sk-static.com/images/media/profile_images/artists/' +
         @get_id.to_s + '/huge_avatar'
         # 'http://images.sk-static.com/images/media/profile_images/artists/' +
@@ -71,3 +81,5 @@ class Artist < ActiveRecord::Base
     end
   end
 end
+
+# http://api.songkick.com/api/3.0/artists/2596951/calendar.json?page=1&min_date=2017-04-06&apikey=Ua1DQXRC1So9StKN

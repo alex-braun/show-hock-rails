@@ -8,7 +8,7 @@ class Location < ActiveRecord::Base
     @client_ip = param.to_s
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?location=ip:' +
-    @client_ip + '&per_page=1&apikey=' + ENV['songkick_key']),
+    @client_ip + '&per_page=50&apikey=' + ENV['songkick_key']),
       headers: { 'Accept' => 'application/json' } ).body
   end
 
@@ -21,3 +21,8 @@ class Location < ActiveRecord::Base
     @result = { 'location' => @clean }
   end
 end
+# Ua1DQXRC1So9StKN
+
+
+
+# http://api.songkick.com/api/3.0/search/locations.json?location=geo:38.0297,-84.4947&per_page=50&apikey=Ua1DQXRC1So9StKN
