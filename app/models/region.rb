@@ -5,8 +5,8 @@ class Region
     @id = params.fetch(:id)
     @page = params.fetch(:page)
     @per_page = params.fetch(:per_page)
-    @min_date = '&min_date='+ params.fetch(:min_date).to_s
-    @max_date = '&max_date'+ params.fetch(:max_date).to_s
+    @min_date = ('&min_date='+ params.fetch(:min_date)).to_s
+    @max_date = ('&max_date'+ params.fetch(:max_date)).to_s
     if params.fetch(:min_date).to_s.blank?
       @min_date = '&'
     end
