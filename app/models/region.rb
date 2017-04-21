@@ -23,7 +23,7 @@ class Region
     @min_date +
     @max_date +
     '&apikey=' +
-    ENV['songkick_key']),
+    ENV['songkick_key'].to_s),
     headers: {
       'Accept' => 'application/json'
     }).body
