@@ -2,6 +2,7 @@ require 'unirest'
 
 class Region
   def initialize(params)
+    api_key = Rails.application.secrets.songkick_key
     @id = params.fetch(:id)
     @page = params.fetch(:page)
     @per_page = params.fetch(:per_page)
@@ -22,8 +23,7 @@ class Region
     @per_page.to_str +
     @min_date +
     @max_date +
-    '&apikey=' +
-    ENV['songkick_key'].to_s),
+    '&apikey=' + api_key),
     headers: {
       'Accept' => 'application/json'
     }).body
