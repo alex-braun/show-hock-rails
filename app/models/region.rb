@@ -14,7 +14,16 @@ class Region
       @max_date = 'nothing'.to_str
     end
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/metro_areas/' + @id.to_str + '/calendar.json?page=' + @page.to_str + '&per_page=' + @per_page.to_str + @min_date + @max_date + '&apikey=' + ENV['songkick_key']),
+    'http://api.songkick.com/api/3.0/metro_areas/' +
+    @id.to_str +
+    '/calendar.json?page=' +
+    @page.to_str +
+    '&per_page=' +
+    @per_page.to_str +
+    @min_date +
+    @max_date +
+    '&apikey=' +
+    ENV['songkick_key']),
     headers: {
       'Accept' => 'application/json'
     }).body
