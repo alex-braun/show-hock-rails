@@ -4,6 +4,7 @@ Rails.application.configure do
   # config/application.rb.
 
   config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.songkick_key = ENV["SONGKICK_KEY"]
 
   # Code is not reloaded between requests.
   config.cache_classes = true
