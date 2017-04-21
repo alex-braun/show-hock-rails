@@ -8,15 +8,15 @@ class Region
     @min_date = ('&min_date='+ params.fetch(:min_date)).to_s
     @max_date = ('&max_date'+ params.fetch(:max_date)).to_s
     if params.fetch(:min_date).to_s.blank?
-      @min_date = '&'
+      @min_date = ''.to_s
     end
     if params.fetch(:max_date).to_s.blank?
-      @max_date = '&'
+      @max_date = ''.to_s
     end
     @body = Unirest.get((
-    "http://api.songkick.com/api/3.0/metro_areas/" + @id.to_s +
-    "/calendar.json?page=" + @page.to_s + "&per_page=" +
-    @per_page.to_s + @min_date + @max_date + "&apikey=" + ENV['songkick_key']),
+    'http://api.songkick.com/api/3.0/metro_areas/' + @id.to_s() +
+    '/calendar.json?page=' + @page.to_s() + '&per_page=' +
+    @per_page.to_s() + @min_date.to_s() + @max_date.to_s() + '&apikey=' + ENV['songkick_key']),
     headers: {
       'Accept' => 'application/json'
     }).body
