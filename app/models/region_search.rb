@@ -3,6 +3,7 @@ require 'addressable/uri'
 
 class RegionSearch
   def initialize(params)
+    @api_key = Rails.application.secrets.songkick_key
     @region_name = params.fetch(:id)
     @uri = Addressable::URI.parse(@region_name.to_s)
     @normalize = @uri.normalize
@@ -10,7 +11,7 @@ class RegionSearch
     @per_page = params.fetch(:per_page)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?query=' +
-    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + ENV['songkick_key']),
+    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @api_key),
     headers: {
       'Accept' => 'application/json'
     }).body

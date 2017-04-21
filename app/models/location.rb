@@ -3,12 +3,13 @@ require 'addressable/uri'
 
 class Location < ActiveRecord::Base
   def initialize(param)
+    @api_key = Rails.application.secrets.songkick_key
     @uri = Addressable::URI.parse(param)
     @client_ip_norm = @uri.normalize
     @client_ip = param.to_s
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?location=ip:' +
-    @client_ip + '&per_page=50&apikey=' + ENV['songkick_key']),
+    @client_ip + '&per_page=50&apikey=' + @api_key),
       headers: { 'Accept' => 'application/json' } ).body
   end
 

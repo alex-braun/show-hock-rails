@@ -2,13 +2,13 @@ require 'unirest'
 require 'addressable/uri'
 
 class LocationGeo < ActiveRecord::Base
-
   def initialize(param)
+    @api_key = Rails.application.secrets.songkick_key
     @lat = param.fetch(:lat).to_s
     @lng = param.fetch(:lng).to_s
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?location=geo:' +
-    @lat + ',' + @lng + '&per_page=100&apikey=' + ENV['songkick_key']),
+    @lat + ',' + @lng + '&per_page=100&apikey=' + @api_key),
       headers: { 'Accept' => 'application/json' } ).body
   end
 

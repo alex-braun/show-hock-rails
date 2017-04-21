@@ -3,6 +3,7 @@ require 'addressable/uri'
 
 class VenueSearch < ActiveRecord::Base
   def initialize(params)
+    @api_key = Rails.application.secrets.songkick_key
     @venue_name = params.fetch(:id)
     @uri = Addressable::URI.parse(@venue_name.to_s)
     @page = params.fetch(:page)
@@ -11,7 +12,7 @@ class VenueSearch < ActiveRecord::Base
     @normalize.to_s.gsub!('&', '%26')
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/venues.json?query=' +
-    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' + @page.to_s + '&apikey=' + ENV['songkick_key']),
+    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' + @page.to_s + '&apikey=' + @api_key),
     headers: { 'Accept' => 'application/json' } ).body
   end
 

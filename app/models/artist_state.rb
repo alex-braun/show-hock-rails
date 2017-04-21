@@ -2,11 +2,12 @@ require 'unirest'
 
 class ArtistState < ActiveRecord::Base
   def initialize(params)
+    @api_key = Rails.application.secrets.songkick_key
     @get_id = params.fetch(:id)
     @user_loc = params.fetch(:user_loc)
     @page = params.fetch(:page)
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + ENV['songkick_key']),
+    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @api_key),
     headers: {
       'Accept' => 'application/json'
     }).body

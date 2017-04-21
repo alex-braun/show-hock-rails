@@ -2,6 +2,7 @@ require 'unirest'
 
 class Artist < ActiveRecord::Base
   def initialize(params)
+    @api_key = Rails.application.secrets.songkick_key
     @get_id = params.fetch(:id)
     @min_date = '&min_date=' + params.fetch(:min_date).to_s
     @max_date = '&max_date=' + params.fetch(:max_date).to_s
@@ -13,7 +14,7 @@ class Artist < ActiveRecord::Base
     end
     @page = params.fetch(:page)
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + @min_date + @max_date + '&apikey=' + ENV['songkick_key']),
+    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + @min_date + @max_date + '&apikey=' + @api_key),
     headers: {
       'Accept' => 'application/json'
     }).body
