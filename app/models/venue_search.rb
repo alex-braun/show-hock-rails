@@ -3,7 +3,8 @@ require 'addressable/uri'
 
 class VenueSearch < ActiveRecord::Base
   def initialize(params)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
+    @googleapi_key = Rails.application.secrets.googleapi_key
     @venue_name = params.fetch(:id)
     @uri = Addressable::URI.parse(@venue_name.to_s)
     @page = params.fetch(:page)
@@ -12,7 +13,7 @@ class VenueSearch < ActiveRecord::Base
     @normalize.to_s.gsub!('&', '%26')
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/venues.json?query=' +
-    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' + @page.to_s + '&apikey=' + @api_key),
+    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' + @page.to_s + '&apikey=' + @songkick_key),
     headers: { 'Accept' => 'application/json' } ).body
   end
 
@@ -50,7 +51,7 @@ class VenueSearch < ActiveRecord::Base
           @clean['venue'][i][:googleMapUrl] = 'https://maps.googleapis.com/maps/api/staticmap?center=' +
           @lat.to_s + ',' + @lng.to_s +
           '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
-          @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
+          @lat.to_s + ',' + @lng.to_s + '&key=' + @googleapi_key
         else
           @clean['venue'][i][:noCoords] = true
         end

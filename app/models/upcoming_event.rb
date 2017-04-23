@@ -3,7 +3,7 @@ require 'addressable/uri'
 
 class UpcomingEvent < ActiveRecord::Base
   def initialize(params)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
     @location = params.fetch(:location)
     @artist = params.fetch(:artist)
     @uri = Addressable::URI.parse(params.fetch(:artist))
@@ -11,7 +11,7 @@ class UpcomingEvent < ActiveRecord::Base
     @normalize.to_s.gsub!('&', '%26')
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/events.json?apikey=' +
-    @api_key + '&artist_name=' + @normalize.to_s +
+    @songkick_key + '&artist_name=' + @normalize.to_s +
     '&location=sk:' + @location),
       headers: {
         'Accept' => 'application/json'

@@ -3,7 +3,8 @@ require 'addressable/uri'
 
 class RegionSearch
   def initialize(params)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
+    @googleapi_key = Rails.application.secrets.googleapi_key
     @region_name = params.fetch(:id)
     @uri = Addressable::URI.parse(@region_name.to_s)
     @normalize = @uri.normalize
@@ -11,7 +12,7 @@ class RegionSearch
     @per_page = params.fetch(:per_page)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?query=' +
-    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @api_key),
+    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @songkick_key),
     headers: {
       'Accept' => 'application/json'
     }).body
@@ -46,12 +47,12 @@ class RegionSearch
           'https://maps.googleapis.com/maps/api/staticmap?center=' +
           @lat.to_s + ',' + @lng.to_s +
           '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
-          @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
+          @lat.to_s + ',' + @lng.to_s + '&key=' + @googleapi_key
         @metroArea[:googleMapHDUrl] =
             'https://maps.googleapis.com/maps/api/staticmap?center=' +
             @lat.to_s + ',' + @lng.to_s +
             '&zoom=4&size=300x300&markers=size:mid%7Ccolor:red%7C' +
-            @lat.to_s + ',' + @lng.to_s + '&key=' + ENV['googleapi_key']
+            @lat.to_s + ',' + @lng.to_s + '&key=' + @googleapi_key
       end
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / @per_page.to_f).ceil,

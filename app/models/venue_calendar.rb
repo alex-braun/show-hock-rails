@@ -2,12 +2,12 @@ require 'unirest'
 
 class VenueCalendar < ActiveRecord::Base
   def initialize(params)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
     @venue = params.fetch(:id)
     @page = params.fetch(:page)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/venues/' + @venue.to_s +
-    '/calendar.json?apikey=' + @api_key),
+    '/calendar.json?apikey=' + @songkick_key),
     headers: { 'Accept' => 'application/json' } ).body
   end
 

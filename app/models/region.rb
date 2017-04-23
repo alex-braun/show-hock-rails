@@ -2,7 +2,7 @@ require 'unirest'
 
 class Region
   def initialize(params)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
     @id = params.fetch(:id)
     @page = params.fetch(:page)
     @per_page = params.fetch(:per_page)
@@ -17,7 +17,7 @@ class Region
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/metro_areas/' + @id.to_s +
     '/calendar.json?page=' + @page.to_s + '&per_page=' +
-    @per_page.to_s + @min_date + @max_date + '&apikey=' + @api_key),
+    @per_page.to_s + @min_date + @max_date + '&apikey=' + @songkick_key),
     headers: {
       'Accept' => 'application/json'
     }).body

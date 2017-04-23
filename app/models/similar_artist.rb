@@ -2,11 +2,11 @@ require 'unirest'
 
 class SimilarArtist < ActiveRecord::Base
   def initialize(param)
-    @api_key = Rails.application.secrets.songkick_key
+    @songkick_key = Rails.application.secrets.songkick_key
     @param = param
     @body = Unirest.get((
       'http://api.songkick.com/api/3.0/artists/' + param.to_s +
-      '/similar_artists.json?per_page=10&apikey=' + @api_key),
+      '/similar_artists.json?per_page=10&apikey=' + @songkick_key),
       headers: {
         'Accept' => 'application/json'
       }).body
