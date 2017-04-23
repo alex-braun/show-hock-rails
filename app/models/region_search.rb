@@ -12,10 +12,11 @@ class RegionSearch
     @per_page = params.fetch(:per_page)
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/locations.json?query=' +
-    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @songkick_key),
-    headers: {
-      'Accept' => 'application/json'
-    }).body
+    @normalize.to_s + '&page=' + @page.to_s + '&per_page=' +
+    @per_page.to_s + '&apikey=' + @songkick_key),
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
@@ -23,9 +24,9 @@ class RegionSearch
     if @response == {}
       @response[:id] = @region_name.to_s
       @response[:noMatch] = true
-      @displayName = { 'displayName' => @region_name.to_s }
-      @metro = { 'metroArea' => @displayName,
-                'noMatch' => true }
+      @display_name = { 'displayName' => @region_name.to_s }
+      @metro = { 'metroArea' => @display_name,
+                 'noMatch' => true }
       @response[:location] = [@metro]
       @meta = {
         'total_pages' => 0,
@@ -40,15 +41,15 @@ class RegionSearch
       @clean['location'].each_index do |i|
         @clean['location'][i][:type] = 'region'
         @clean['location'][i][:id] = @clean['location'][i]['metroArea']['id']
-        @metroArea = @clean['location'][i]['metroArea']
+        @metro_area = @clean['location'][i]['metroArea']
         @lat = @clean['location'][i]['metroArea']['lat']
         @lng = @clean['location'][i]['metroArea']['lng']
-        @metroArea[:googleMapUrl] =
+        @metro_area[:googleMapUrl] =
           'https://maps.googleapis.com/maps/api/staticmap?center=' +
           @lat.to_s + ',' + @lng.to_s +
           '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
           @lat.to_s + ',' + @lng.to_s + '&key=' + @googleapi_key
-        @metroArea[:googleMapHDUrl] =
+        @metro_area[:googleMapHDUrl] =
             'https://maps.googleapis.com/maps/api/staticmap?center=' +
             @lat.to_s + ',' + @lng.to_s +
             '&zoom=4&size=300x300&markers=size:mid%7Ccolor:red%7C' +

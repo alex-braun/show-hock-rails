@@ -18,9 +18,9 @@ class Region
     'http://api.songkick.com/api/3.0/metro_areas/' + @id.to_s +
     '/calendar.json?page=' + @page.to_s + '&per_page=' +
     @per_page.to_s + @min_date + @max_date + '&apikey=' + @songkick_key),
-    headers: {
-      'Accept' => 'application/json'
-    }).body
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
@@ -28,11 +28,12 @@ class Region
     if @response == {}
       @response[:id] = @id.to_f
       @response[:noMatch] = true
-      @displayName = { 'displayName' => "The region id does not exist." }
-      @metroArea = { 'metroArea' => @displayName}
-      @response[:event] = [@metroArea]
+      @display_name = { 'displayName' => 'The region id does not exist.' }
+      @metro_area = { 'metroArea' => @display_name }
+      @response[:event] = [@metro_area]
       @meta = {
-        'total_pages' => (@body['resultsPage']['totalEntries'] / @per_page.to_f).ceil,
+        'total_pages' => (@body['resultsPage']['totalEntries'] /
+        @per_page.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
@@ -42,7 +43,8 @@ class Region
       @clean = @body['resultsPage']['results']
       @clean[:id] = @id.to_f
       @meta = {
-        'total_pages' => (@body['resultsPage']['totalEntries'] / @per_page.to_f).ceil,
+        'total_pages' => (@body['resultsPage']['totalEntries'] /
+        @per_page.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
@@ -50,17 +52,19 @@ class Region
 
       @clean['event'].each_index do |i|
         @first_performance = @clean['event'][i]['performance'].first
-        unless @first_performance == nil
+        unless @first_performance.nil?
           @headline_artist = @first_performance['artist']['id']
           @clean['event'][i][:headlineArtist] = @headline_artist
         end
       end
       @clean['event'].each_index do |i|
         @venue_id = @clean['event'][i]['venue']['id']
-        @clean['event'][i]['venue'][:venueImg] = 'https://images.sk-static.com/images/media/profile_images/venues/' + @venue_id.to_s + '/col4'
+        @clean['event'][i]['venue'][:venueImg] = 'https://images.sk-static.com/images/media/profile_images/venues/' +
+        @venue_id.to_s + '/col4'
         @clean['event'][i]['performance'].each_index do |j|
           @artist = @clean['event'][i]['performance'][j]['artist']
-          @artist[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
+          @artist[:imageUrl] =
+          'https://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
         if @clean['event'][i]['type'] == 'Festival'

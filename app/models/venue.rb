@@ -7,16 +7,17 @@ class Venue < ActiveRecord::Base
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/venues/' + @venue.to_s +
     '.json?apikey=' + @songkick_key),
-    headers: { 'Accept' => 'application/json' } ).body
+                        headers: { 'Accept' => 'application/json' }).body
   end
 
   def result
     @clean = @body['resultsPage']['results']['venue']
     @lat = @clean['lat']
     @lng = @clean['lng']
-    @clean[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/venues/' +
+    @clean[:imageUrl] =
+    'https://images.sk-static.com/images/media/profile_images/venues/' +
     @clean['id'].to_s + '/col4'
-    if @lat == nil || @lng == nil
+    if @lat.nil? || @lng.nil?
       @clean[:noCoords] = true
     end
     @result = { 'venue' => @clean }

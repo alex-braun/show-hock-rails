@@ -7,10 +7,12 @@ class ArtistState < ActiveRecord::Base
     @user_loc = params.fetch(:user_loc)
     @page = params.fetch(:page)
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + '&per_page=' + @per_page.to_s + '&apikey=' + @api_key),
-    headers: {
-      'Accept' => 'application/json'
-    }).body
+    'http://api.songkick.com/api/3.0/artists/' + @get_id.to_s +
+    '/calendar.json?page=' + @page.to_s + '&per_page=' +
+    @per_page.to_s + '&apikey=' + @api_key),
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
@@ -19,7 +21,7 @@ class ArtistState < ActiveRecord::Base
       @response[:id] = @get_id.to_f
       @artist_name = { 'displayName' => "No Events within the user's state" }
       @event = { 'performance' => @artist_name,
-                  'noMatch' => true }
+                 'noMatch' => true }
       @response[:event] = [@event]
       @result = { 'artist' => @response }
     else

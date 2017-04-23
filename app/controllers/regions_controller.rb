@@ -7,7 +7,10 @@ class RegionsController < OpenReadController
   # end
 
   def show
-    @regions = Region.new(id: params[:id], page: params[:page], per_page: params[:per_page], min_date: params[:min_date], max_date: params[:max_date]).result
+    @regions = Region.new(id: params[:id], page: params[:page],
+                          per_page: params[:per_page],
+                          min_date: params[:min_date],
+                          max_date: params[:max_date]).result
 
     render json: @regions
   end

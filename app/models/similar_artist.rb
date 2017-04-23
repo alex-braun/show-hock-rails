@@ -7,9 +7,9 @@ class SimilarArtist < ActiveRecord::Base
     @body = Unirest.get((
       'http://api.songkick.com/api/3.0/artists/' + param.to_s +
       '/similar_artists.json?per_page=10&apikey=' + @songkick_key),
-      headers: {
-        'Accept' => 'application/json'
-      }).body
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
@@ -21,7 +21,6 @@ class SimilarArtist < ActiveRecord::Base
       @artist = { 'displayName' => @artist_name,
                   'noMatch' => true }
       @response[:artist] = [@artist]
-
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],

@@ -13,8 +13,9 @@ class VenueSearch < ActiveRecord::Base
     @normalize.to_s.gsub!('&', '%26')
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/search/venues.json?query=' +
-    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' + @page.to_s + '&apikey=' + @songkick_key),
-    headers: { 'Accept' => 'application/json' } ).body
+    @normalize.to_s + '&per_page=' + @per_page.to_s + '&page=' +
+    @page.to_s + '&apikey=' + @songkick_key),
+                        headers: { 'Accept' => 'application/json' }).body
   end
 
   def result
@@ -22,9 +23,9 @@ class VenueSearch < ActiveRecord::Base
     if @response == {}
       @response[:id] = @venue_name.to_s
       @response[:noMatch] = true
-      @displayName = { 'displayName' => @venue_name.to_s }
-      @venue = { 'venue' => @displayName,
-                'noMatch' => true }
+      @display_name = { 'displayName' => @venue_name.to_s }
+      @venue = { 'venue' => @display_name,
+                 'noMatch' => true }
       @meta = {
         'venue_name' => @venue_name.to_s,
         'total_pages' => 0,
@@ -37,7 +38,8 @@ class VenueSearch < ActiveRecord::Base
     else
       @clean = @body['resultsPage']['results']
       @meta = {
-        'total_pages' => (@body['resultsPage']['totalEntries'] / @per_page.to_f).ceil,
+        'total_pages' => (@body['resultsPage']['totalEntries'] /
+        @per_page.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
@@ -47,8 +49,9 @@ class VenueSearch < ActiveRecord::Base
         @clean['venue'][i][:type] = 'venue'
         @lat = @clean['venue'][i]['lat']
         @lng = @clean['venue'][i]['lng']
-        if @lat != nil || @lng != nil
-          @clean['venue'][i][:googleMapUrl] = 'https://maps.googleapis.com/maps/api/staticmap?center=' +
+        if !@lat.nil? || !@lng.nil?
+          @clean['venue'][i][:googleMapUrl] =
+          'https://maps.googleapis.com/maps/api/staticmap?center=' +
           @lat.to_s + ',' + @lng.to_s +
           '&zoom=4&size=100x100&markers=size:mid%7Ccolor:red%7C' +
           @lat.to_s + ',' + @lng.to_s + '&key=' + @googleapi_key
@@ -58,7 +61,6 @@ class VenueSearch < ActiveRecord::Base
         @clean['venue'][i][:imageUrl] =
         'https://images.sk-static.com/images/media/profile_images/venues/' +
         @clean['venue'][i]['id'].to_s + '/col4'
-
       end
       @result = { 'venue_search' => @clean }
     end

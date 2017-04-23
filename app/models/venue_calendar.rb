@@ -8,21 +8,22 @@ class VenueCalendar < ActiveRecord::Base
     @body = Unirest.get((
     'http://api.songkick.com/api/3.0/venues/' + @venue.to_s +
     '/calendar.json?apikey=' + @songkick_key),
-    headers: { 'Accept' => 'application/json' } ).body
+                        headers: { 'Accept' => 'application/json' }).body
   end
 
   def result
     @response = @body['resultsPage']['results']
     if @response == {}
       @event = { 'displayName' => 'No upcoming events found',
-                'noMatch' => true }
+                 'noMatch' => true }
       @response[:event] = [@event]
       @response[:id] = @venue.to_f
     else
       @response['event'].each_index do |i|
         @response['event'][i]['performance'].each_index do |j|
           @artist = @response['event'][i]['performance'][j]['artist']
-          @artist[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
+          @artist[:imageUrl] =
+          'https://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
       end

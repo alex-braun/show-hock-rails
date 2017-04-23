@@ -14,10 +14,12 @@ class Artist < ActiveRecord::Base
     end
     @page = params.fetch(:page)
     @body = Unirest.get((
-    'http://api.songkick.com/api/3.0/artists/'+ @get_id.to_s + '/calendar.json?page=' + @page.to_s + @min_date + @max_date + '&apikey=' + @songkick_key),
-    headers: {
-      'Accept' => 'application/json'
-    }).body
+    'http://api.songkick.com/api/3.0/artists/' + @get_id.to_s +
+    '/calendar.json?page=' + @page.to_s + @min_date + @max_date +
+    '&apikey=' + @songkick_key),
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
@@ -26,7 +28,7 @@ class Artist < ActiveRecord::Base
       @response[:id] = @get_id.to_f
       @artist_name = { 'displayName' => 'No Events for the artist' }
       @event = { 'performance' => @artist_name,
-                  'noMatch' => true }
+                 'noMatch' => true }
       @response[:event] = [@event]
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
@@ -34,7 +36,8 @@ class Artist < ActiveRecord::Base
         'total_entries' => @body['resultsPage']['totalEntries'],
         'min_date' => @min_date,
         'max_date' => @max_date,
-        'imageUrl' => 'https://images.sk-static.com/images/media/profile_images/artists/' +
+        'imageUrl' =>
+        'https://images.sk-static.com/images/media/profile_images/artists/' +
         @get_id.to_s + '/huge_avatar'
       }
       @response[:meta] = @meta
@@ -69,7 +72,7 @@ class Artist < ActiveRecord::Base
       @clean[:artist] = @artist
       @clean[:meta] = @meta
       @result = {
-        'artist' => @clean,
+        'artist' => @clean
       }
     end
   end

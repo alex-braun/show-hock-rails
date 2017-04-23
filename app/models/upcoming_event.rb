@@ -13,9 +13,9 @@ class UpcomingEvent < ActiveRecord::Base
     'http://api.songkick.com/api/3.0/events.json?apikey=' +
     @songkick_key + '&artist_name=' + @normalize.to_s +
     '&location=sk:' + @location),
-      headers: {
-        'Accept' => 'application/json'
-              }).body
+                        headers: {
+                          'Accept' => 'application/json'
+                        }).body
   end
 
   def result
