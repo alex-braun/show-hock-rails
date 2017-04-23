@@ -34,7 +34,7 @@ class Artist < ActiveRecord::Base
         'total_entries' => @body['resultsPage']['totalEntries'],
         'min_date' => @min_date,
         'max_date' => @max_date,
-        'imageUrl' => 'http://images.sk-static.com/images/media/profile_images/artists/' +
+        'imageUrl' => 'https://images.sk-static.com/images/media/profile_images/artists/' +
         @get_id.to_s + '/huge_avatar'
       }
       @response[:meta] = @meta
@@ -58,11 +58,11 @@ class Artist < ActiveRecord::Base
             @artist = @assoc_artist['displayName']
           end
           @assoc_artist[:imageUrl] =
-          'http://images.sk-static.com/images/media/profile_images/artists/' +
+          'https://images.sk-static.com/images/media/profile_images/artists/' +
           @assoc_artist['id'].to_s + '/huge_avatar'
         end
         if @clean['event'][i]['type'] == 'Festival'
-          @clean['event'][i][:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/events/' +
+          @clean['event'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/events/' +
           @clean['event'][i]['id'].to_s + '/huge_avatar'
         end
       end

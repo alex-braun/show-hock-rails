@@ -40,7 +40,7 @@ class SimilarArtist < ActiveRecord::Base
       @clean['artist'].each_index do |i|
         @id = @clean['artist'][i]['id']
         @clean['artist'][i][:imageUrl] =
-          'http://images.sk-static.com/images/media/profile_images/artists/' +
+          'https://images.sk-static.com/images/media/profile_images/artists/' +
           @id.to_s + '/huge_avatar'
       end
       @clean[:meta] = @meta

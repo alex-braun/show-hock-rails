@@ -22,7 +22,7 @@ class VenueCalendar < ActiveRecord::Base
       @response['event'].each_index do |i|
         @response['event'][i]['performance'].each_index do |j|
           @artist = @response['event'][i]['performance'][j]['artist']
-          @artist[:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/artists/' +
+          @artist[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
       end

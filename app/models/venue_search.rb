@@ -56,7 +56,7 @@ class VenueSearch < ActiveRecord::Base
           @clean['venue'][i][:noCoords] = true
         end
         @clean['venue'][i][:imageUrl] =
-        'http://images.sk-static.com/images/media/profile_images/venues/' +
+        'https://images.sk-static.com/images/media/profile_images/venues/' +
         @clean['venue'][i]['id'].to_s + '/col4'
 
       end

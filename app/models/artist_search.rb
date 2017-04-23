@@ -44,7 +44,7 @@ class ArtistSearch
       @clean[:id] = @artist.to_s
       @clean['artist'].each_index do |i|
         @clean['artist'][i][:type] = 'artist'
-        @clean['artist'][i][:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/artists/' +
+        @clean['artist'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
         @clean['artist'][i]['id'].to_s + '/huge_avatar'
       end
       @meta = {

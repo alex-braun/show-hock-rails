@@ -36,11 +36,11 @@ class ArtistState < ActiveRecord::Base
             @artist = @assoc_artist['displayName']
           end
           @assoc_artist[:imageUrl] =
-          'http://images.sk-static.com/images/media/profile_images/artists/' +
+          'https://images.sk-static.com/images/media/profile_images/artists/' +
           @assoc_artist['id'].to_s + '/huge_avatar'
         end
         if @clean['event'][i]['type'] == 'Festival'
-          @clean['event'][i][:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/events/' +
+          @clean['event'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/events/' +
           @clean['event'][i]['id'].to_s + '/huge_avatar'
         end
       end

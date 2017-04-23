@@ -14,7 +14,7 @@ class Venue < ActiveRecord::Base
     @clean = @body['resultsPage']['results']['venue']
     @lat = @clean['lat']
     @lng = @clean['lng']
-    @clean[:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/venues/' +
+    @clean[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/venues/' +
     @clean['id'].to_s + '/col4'
     if @lat == nil || @lng == nil
       @clean[:noCoords] = true

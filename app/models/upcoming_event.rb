@@ -33,7 +33,7 @@ class UpcomingEvent < ActiveRecord::Base
         @clean[i]['performance'].each_index do |j|
           @artist_name = @clean[i]['performance'][j]['artist']
           @artist_name[:imageUrl] =
-            'http://images.sk-static.com/images/media/profile_images/events/' +
+            'https://images.sk-static.com/images/media/profile_images/events/' +
             @artist_name['id'].to_s + '/huge_avatar'
         end
       end

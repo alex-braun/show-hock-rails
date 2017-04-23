@@ -57,15 +57,15 @@ class Region
       end
       @clean['event'].each_index do |i|
         @venue_id = @clean['event'][i]['venue']['id']
-        @clean['event'][i]['venue'][:venueImg] = 'http://images.sk-static.com/images/media/profile_images/venues/' + @venue_id.to_s + '/col4'
+        @clean['event'][i]['venue'][:venueImg] = 'https://images.sk-static.com/images/media/profile_images/venues/' + @venue_id.to_s + '/col4'
         @clean['event'][i]['performance'].each_index do |j|
           @artist = @clean['event'][i]['performance'][j]['artist']
-          @artist[:imageUrl] = 'http://images.sk-static.com/images/media/profile_images/artists/' +
+          @artist[:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
         if @clean['event'][i]['type'] == 'Festival'
           @clean['event'][i][:imageUrl] =
-            'http://images.sk-static.com/images/media/profile_images/events/' +
+            'https://images.sk-static.com/images/media/profile_images/events/' +
             @clean['event'][i]['id'].to_s + '/huge_avatar'
         end
       end
