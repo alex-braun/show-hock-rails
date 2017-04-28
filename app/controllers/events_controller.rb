@@ -18,13 +18,13 @@ class EventsController < OpenReadController
   # POST /events
   # POST /events.json
   def create
-    @event = current_user.events.build(event_params)
+    @event = Event.create(event_params)
     # @event = Event.new(event_params)
 
-    if @event.save
+    if @event.valid?
       render json: @event, status: :created, location: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: Event.where('event_id = :event_id', event_id: event_params[:event_id])
     end
   end
 
@@ -55,6 +55,6 @@ class EventsController < OpenReadController
     end
 
     def event_params
-      params.require(:event).permit(:songkick_id, :name, :location, :date, artists: [])
+      params.require(:event).permit(:event_id, :event_name, :region_name, :region_id, :start, :end, :city, :state, :country, :venue_name, :venue_id, artists: [])
     end
 end

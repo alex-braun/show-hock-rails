@@ -1,15 +1,12 @@
-class EventSerializer < ActiveModel::Serializer
+class ShowSerializer < ActiveModel::Serializer
   attributes :id,
-             :artists,
-             :artist_id,
-             :artist_name,
-             :artist_img,
+             :performers,
              :region_id,
              :region_name,
              :venue_id,
              :venue_name,
-             :event_name,
              :event_id,
+             :event_name,
              :start,
              :end,
              :city,

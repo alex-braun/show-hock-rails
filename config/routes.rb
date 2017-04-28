@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
+  resources :performers, except: [:new, :edit]
+  resources :shows, except: [:new, :edit]
+  resources :calendars, except: [:new, :edit]
   resources :location_geos, except: [:new, :edit]
   resources :venue_calendars, except: [:new, :edit]
   resources :venues, except: [:new, :edit]
@@ -13,7 +16,7 @@ Rails.application.routes.draw do
   # resources :artist_searches, except: [:new, :edit]
   resources :regions, except: [:new, :edit]
   resources :region_searches, except: [:new, :edit]
-  resources :events, except: [:new, :edit]
+  # resources :events, except: [:new, :edit]
   resources :examples, except: [:new, :edit]
   get '/artist_searches/:id' => 'artist_searches#show', :constraints => { :id => /[^\/]+/ }
   post '/sign-up' => 'users#signup'

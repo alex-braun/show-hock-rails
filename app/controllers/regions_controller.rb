@@ -1,4 +1,5 @@
-class RegionsController < OpenReadController
+class RegionsController < ProtectedController
+  skip_before_action :authenticate, only: [:show]
   # before_action :set_region, only: [:show, :update, :destroy]
   # def index
   #   @regions = Region.new(get_id: params[:getId],
@@ -11,7 +12,6 @@ class RegionsController < OpenReadController
                           per_page: params[:per_page],
                           min_date: params[:min_date],
                           max_date: params[:max_date]).result
-
     render json: @regions
   end
 end

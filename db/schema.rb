@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413031707) do
+ActiveRecord::Schema.define(version: 20170427211913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,23 +31,39 @@ ActiveRecord::Schema.define(version: 20170413031707) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "calendars", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "show_id"
+    t.boolean  "isDone",     default: false
+    t.integer  "event_id"
+  end
+
+  add_index "calendars", ["show_id"], name: "index_calendars_on_show_id", using: :btree
+  add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
+
   create_table "concerts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
-    t.integer  "songkick_id"
-    t.string   "name"
     t.text     "artists",     default: [],              array: true
-    t.text     "location"
-    t.datetime "date"
-    t.integer  "user_id"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "city"
+    t.string   "country"
+    t.string   "state"
+    t.string   "event_name"
+    t.integer  "event_id"
+    t.string   "venue_name"
+    t.integer  "venue_id"
+    t.string   "region_name"
+    t.integer  "region_id"
   end
-
-  add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "examples", force: :cascade do |t|
     t.text     "text",       null: false
@@ -68,6 +84,17 @@ ActiveRecord::Schema.define(version: 20170413031707) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "performers", force: :cascade do |t|
+    t.integer  "artist_id"
+    t.string   "artist_name"
+    t.string   "artist_img"
+    t.integer  "show_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "performers", ["show_id"], name: "index_performers_on_show_id", using: :btree
+
   create_table "region_searches", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -76,6 +103,26 @@ ActiveRecord::Schema.define(version: 20170413031707) do
   create_table "regions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shows", force: :cascade do |t|
+    t.text     "artists",     default: [],              array: true
+    t.integer  "region_id"
+    t.string   "region_name"
+    t.integer  "venue_id"
+    t.string   "venue_name"
+    t.integer  "event_id"
+    t.string   "event_name"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "artist_id"
+    t.string   "artist_name"
+    t.string   "artist_img"
   end
 
   create_table "similar_artists", force: :cascade do |t|
@@ -114,6 +161,8 @@ ActiveRecord::Schema.define(version: 20170413031707) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "events", "users"
+  add_foreign_key "calendars", "shows"
+  add_foreign_key "calendars", "users"
   add_foreign_key "examples", "users"
+  add_foreign_key "performers", "shows"
 end

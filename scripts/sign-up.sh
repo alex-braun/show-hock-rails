@@ -16,6 +16,28 @@ curl "${API}${URL_PATH}" \
 
 echo
 
+
+
+curl --include --request POST http://localhost:4741/sign-up \
+  --header "Content-Type: application/json" \
+  --data '{
+    "credentials": {
+      "email": "an@example.email",
+      "password": "an example password",
+      "password_confirmation": "an example password"
+    }
+  }'
+
+curl --include --request POST http://localhost:4741/sign-up \
+  --header "Content-Type: application/json" \
+  --data '{
+    "credentials": {
+      "email": "an@example4.email",
+      "password": "an example4 password",
+      "password_confirmation": "an example4 password"
+    }
+  }'
+
 # API="http://localhost:4741"
 # URL_PATH="/sign-up"
 # curl "${API}${URL_PATH}" \
