@@ -55,6 +55,6 @@ class CalendarsController < OpenReadController
     end
 
     def calendar_params
-      params.require(:calendar).permit(:show_id, :user_id, :event_id, :isDone)
+      params.require(:calendar).permit(:user_id, :event_id, :is_done, :show_id)
     end
 end

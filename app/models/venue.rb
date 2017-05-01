@@ -14,11 +14,13 @@ class Venue < ActiveRecord::Base
     @clean = @body['resultsPage']['results']['venue']
     @lat = @clean['lat']
     @lng = @clean['lng']
-    @clean[:imageUrl] =
+    @clean[:display_name] = @clean['displayName']
+    @clean[:metro_area] = @clean['metroArea']
+    @clean[:image_url] =
     'https://images.sk-static.com/images/media/profile_images/venues/' +
     @clean['id'].to_s + '/col4'
     if @lat.nil? || @lng.nil?
-      @clean[:noCoords] = true
+      @clean[:no_coords] = true
     end
     @result = { 'venue' => @clean }
   end

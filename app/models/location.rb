@@ -16,6 +16,7 @@ class Location < ActiveRecord::Base
   def result
     @clean = @body['resultsPage']['results']['location']
     @clean.each_index do |i|
+      @clean[i][:metro_area] = @clean[i]['metroArea']
       @location_id = @clean[i]['metroArea']['id']
       @clean[i][:id] = @location_id
     end

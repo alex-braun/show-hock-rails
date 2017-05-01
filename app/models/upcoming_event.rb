@@ -22,7 +22,7 @@ class UpcomingEvent < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @artist.to_s
-      @response[:noMatch] = true
+      @response[:no_match] = true
       @artist_name = { 'displayName' => @artist.to_s }
       @artist_obj = { 'artist' => @artist_name }
       @response[:performance] = @artist_obj

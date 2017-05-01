@@ -4,7 +4,7 @@ curl --include --request POST http://localhost:4741/calendars \
   --data '{
     "calendar": {
       "isDone": false,
-      "show_id": 3
+      "show_id": 58
     }
   }'
 

@@ -17,6 +17,10 @@ class ShowsController < OpenReadController
 
   # POST /shows
   # POST /shows.json
+  def errors
+
+  end
+
   def create
     @show = Show.create(show_params)
 
@@ -24,7 +28,16 @@ class ShowsController < OpenReadController
       render json: @show, status: :created, location: @show
     else
       # render json: @show.errors, status: :unprocessable_entity
-      render json: Show.where('event_id = :event_id', event_id: show_params[:event_id]), status: :im_used
+
+      # render json: { errors: @show.errors.details[:id] }, status: :found
+
+      # render json: Show.where('event_id = :event_id', event_id: show_params[:event_id]), status: :found
+
+      @dupe = Show.where('event_id = :event_id', event_id: show_params[:event_id])
+
+      render json: { errors: @dupe }, status: :found
+
+      # render json: { errors: @show.errors }, status: :im_used
     end
   end
 
@@ -55,6 +68,6 @@ class ShowsController < OpenReadController
     end
 
     def show_params
-      params.require(:show).permit(:region_id, :region_name, :venue_id, :venue_name, :event_id, :event_name, :start, :end, :city, :state, :country)
+      params.require(:show).permit(:region_id, :region_name, :venue_id, :venue_name, :event_id, :event_name, :start, :end, :city, :state, :country, :type)
     end
 end

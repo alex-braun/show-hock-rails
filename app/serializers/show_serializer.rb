@@ -13,13 +13,18 @@ class ShowSerializer < ActiveModel::Serializer
              :state,
              :country,
              :users,
-             :calendars
+             :calendars,
+             :type
 
   def users
-    object.users.pluck(:id)
+    # object.users.select([:id, :email]).map { |e| { id: e.id, email: e.email } }
+
+    object.users.pluck(:id, :email).map { |e| { id: e[0], email: e[1] } }
+    # object.users.pluck(:id, :email)
   end
 
   def calendars
     object.calendars.pluck(:id)
   end
 end
+# pluck(:first, :last, :dob).map {|e| {first: e[0], last: e[1], dob: e[2]} }

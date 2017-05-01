@@ -15,7 +15,7 @@ class VenueCalendar < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @event = { 'displayName' => 'No upcoming events found',
-                 'noMatch' => true }
+                 'no_match' => true }
       @response[:event] = [@event]
       @response[:id] = @venue.to_f
     else

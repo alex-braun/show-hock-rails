@@ -27,7 +27,7 @@ class Region
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @id.to_f
-      @response[:noMatch] = true
+      @response[:no_match] = true
       @display_name = { 'displayName' => 'The region id does not exist.' }
       @metro_area = { 'metroArea' => @display_name }
       @response[:event] = [@metro_area]
