@@ -11,6 +11,7 @@ gem 'pg'
 gem 'bcrypt', '~> 3.1.11'
 gem 'figaro'
 gem 'unirest', '~>1.1.2'
+gem 'whenever', :require => false
 
 group :production do
   gem 'rails_12factor', '~> 0.0.3'
