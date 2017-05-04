@@ -28,7 +28,7 @@ class Artist < ActiveRecord::Base
       @response[:id] = @get_id.to_f
       @artist_name = { 'displayName' => 'No Events for the artist' }
       @event = { 'performance' => @artist_name,
-                 'no_match' => true }
+                 'noMatch' => true }
       @response[:event] = [@event]
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,

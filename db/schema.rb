@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430164440) do
+ActiveRecord::Schema.define(version: 20170503134219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20170430164440) do
     t.boolean  "isDone",     default: false
     t.integer  "event_id"
     t.boolean  "is_done",    default: false
+    t.datetime "end_date"
   end
 
   add_index "calendars", ["show_id"], name: "index_calendars_on_show_id", using: :btree
@@ -113,17 +114,19 @@ ActiveRecord::Schema.define(version: 20170430164440) do
     t.string   "venue_name"
     t.integer  "event_id"
     t.string   "event_name"
-    t.datetime "start"
-    t.datetime "end"
     t.string   "city"
     t.string   "state"
     t.string   "country"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "artist_id"
     t.string   "artist_name"
     t.string   "artist_img"
     t.string   "type"
+    t.boolean  "expired",     default: false
+    t.datetime "end_date"
+    t.datetime "start_date"
+    t.string   "event_link"
   end
 
   create_table "similar_artists", force: :cascade do |t|

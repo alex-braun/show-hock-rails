@@ -22,7 +22,7 @@ class VenueSearch < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @venue_name.to_s
-      @response[:no_match] = true
+      @response[:noMatch] = true
       @display_name = { 'displayName' => @venue_name.to_s }
       @venue = { 'venue' => @display_name,
                  'noMatch' => true }

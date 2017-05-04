@@ -16,10 +16,10 @@ class SimilarArtist < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @param.to_f
-      @response[:no_match] = true
+      @response[:noMatch] = true
       @artist_name = 'No similar artists listed'
       @artist = { 'displayName' => @artist_name,
-                  'no_match' => true }
+                  'noMatch' => true }
       @response[:artist] = [@artist]
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,

@@ -5,7 +5,7 @@ class ShowsController < OpenReadController
   # GET /shows.json
   def index
     @shows = Show.all
-
+    # sorted = @shows.order(:end_date)
     render json: @shows
   end
 
@@ -27,16 +27,10 @@ class ShowsController < OpenReadController
     if @show.valid?
       render json: @show, status: :created, location: @show
     else
-      # render json: @show.errors, status: :unprocessable_entity
-
-      # render json: { errors: @show.errors.details[:id] }, status: :found
-
-      # render json: Show.where('event_id = :event_id', event_id: show_params[:event_id]), status: :found
 
       @dupe = Show.where('event_id = :event_id', event_id: show_params[:event_id])
 
       render json: { errors: @dupe }, status: :found
-
       # render json: { errors: @show.errors }, status: :im_used
     end
   end
@@ -68,6 +62,6 @@ class ShowsController < OpenReadController
     end
 
     def show_params
-      params.require(:show).permit(:region_id, :region_name, :venue_id, :venue_name, :event_id, :event_name, :start, :end, :city, :state, :country, :type)
+      params.require(:show).permit(:region_id, :region_name, :venue_id, :venue_name, :event_id, :event_name, :event_link, :city, :state, :country, :type, :expired, :start_date, :end_date)
     end
 end

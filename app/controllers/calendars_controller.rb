@@ -13,6 +13,7 @@ class CalendarsController < OpenReadController
   # GET /calendars/1
   # GET /calendars/1.json
   def show
+    # @calendar = current_user.calendars.find(params[:id])
     render json: @calendar
   end
 
@@ -55,6 +56,6 @@ class CalendarsController < OpenReadController
     end
 
     def calendar_params
-      params.require(:calendar).permit(:user_id, :event_id, :is_done, :show_id)
+      params.require(:calendar).permit(:user_id, :event_id, :is_done, :show_id, :end_date)
     end
 end
