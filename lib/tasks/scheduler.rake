@@ -10,3 +10,9 @@ task remove_calendars: :environment do
   @calendars = Calendar.where('end_date < ?', Date.today - 2.days)
   @calendars.delete_all
 end
+
+task ping_dyno: :environment do
+  require 'unirest'
+  @ping_url = Rails.application.secrets.ping_url
+  Unirest.get @ping_url
+end
