@@ -34,16 +34,14 @@ class ArtistSearch
         'current_page' => 1,
         'total_entries' => 0
       }
-
       @response[:meta] = @meta
-      @result = { 'artist_search' => @response }
+      return @result = { 'artist_search' => @response }
     else
-      @clean = @body['resultsPage']['results']
-      @clean[:id] = @artist.to_s
-      @clean['artist'].each_index do |i|
-        @clean['artist'][i][:type] = 'artist'
-        @clean['artist'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
-        @clean['artist'][i]['id'].to_s + '/huge_avatar'
+      @response[:id] = @artist.to_s
+      @response['artist'].each_index do |i|
+        @response['artist'][i][:type] = 'artist'
+        @response['artist'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/artists/' +
+        @response['artist'][i]['id'].to_s + '/huge_avatar'
       end
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] /
@@ -51,8 +49,8 @@ class ArtistSearch
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
-      @clean[:meta] = @meta
-      @result = { 'artist_search' => @clean }
+      @response[:meta] = @meta
+      @result = { 'artist_search' => @response }
     end
   end
 end

@@ -41,22 +41,20 @@ class Artist < ActiveRecord::Base
         @get_id.to_s + '/huge_avatar'
       }
       @response[:meta] = @meta
-      @result = { 'artist' => @response }
+      return @result = { 'artist' => @response }
     else
-      @clean = @body['resultsPage']['results']
-      @clean[:id] = @get_id.to_f
+      @response[:id] = @get_id.to_f
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 50.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
-
-      @clean['event'].each_index do |i|
-        @clean['event'][i]['performance'].each_index do |j|
-          if @clean['event'][i]['performance'][j]['id'] == @get_id.to_f
-            @artist = @clean['event'][i]['performance'][j]['artist']
+      @response['event'].each_index do |i|
+        @response['event'][i]['performance'].each_index do |j|
+          if @response['event'][i]['performance'][j]['id'] == @get_id.to_f
+            @artist = @response['event'][i]['performance'][j]['artist']
           end
-          @assoc_artist = @clean['event'][i]['performance'][j]['artist']
+          @assoc_artist = @response['event'][i]['performance'][j]['artist']
           if @assoc_artist['id'] == @get_id.to_f
             @artist = @assoc_artist['displayName']
           end
@@ -64,15 +62,15 @@ class Artist < ActiveRecord::Base
           'https://images.sk-static.com/images/media/profile_images/artists/' +
           @assoc_artist['id'].to_s + '/huge_avatar'
         end
-        if @clean['event'][i]['type'] == 'Festival'
-          @clean['event'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/events/' +
-          @clean['event'][i]['id'].to_s + '/huge_avatar'
+        if @response['event'][i]['type'] == 'Festival'
+          @response['event'][i][:imageUrl] = 'https://images.sk-static.com/images/media/profile_images/events/' +
+          @response['event'][i]['id'].to_s + '/huge_avatar'
         end
       end
-      @clean[:artist] = @artist
-      @clean[:meta] = @meta
+      @response[:artist] = @artist
+      @response[:meta] = @meta
       @result = {
-        'artist' => @clean
+        'artist' => @response
       }
     end
   end

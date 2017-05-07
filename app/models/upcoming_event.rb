@@ -23,15 +23,16 @@ class UpcomingEvent < ActiveRecord::Base
     if @response == {}
       @response[:id] = @artist.to_s
       @response[:no_match] = true
-      @artist_name = { 'displayName' => @artist.to_s }
+      @artist_name = { 'display_name' => @artist.to_s }
       @artist_obj = { 'artist' => @artist_name }
       @response[:performance] = @artist_obj
-      @result = { 'upcoming_event' => [@response] }
+      return @result = { 'upcoming_event' => [@response] }
     else
-      @clean = @body['resultsPage']['results']['event']
-      @clean.each_index do |i|
-        @clean[i]['performance'].each_index do |j|
-          @artist_name = @clean[i]['performance'][j]['artist']
+      @response = @body['resultsPage']['results']['event']
+      @response.each_index do |i|
+        @response[i][:display_name] = @response[i]['displayName']
+        @response[i]['performance'].each_index do |j|
+          @artist_name = @response[i]['performance'][j]['artist']
           @artist_name[:imageUrl] =
             'https://images.sk-static.com/images/media/profile_images/events/' +
             @artist_name['id'].to_s + '/huge_avatar'
@@ -44,7 +45,7 @@ class UpcomingEvent < ActiveRecord::Base
         'artist' => @artist.to_s,
         'clientLocation' => @body['resultsPage']['clientLocation']
       }
-      @result = { 'upcoming_event' => @clean,
+      @result = { 'upcoming_event' => @response,
                   'meta' => @meta }
     end
   end

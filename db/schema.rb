@@ -11,17 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503134219) do
+ActiveRecord::Schema.define(version: 20170505145211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "artist_searches", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "artist_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -48,23 +43,6 @@ ActiveRecord::Schema.define(version: 20170503134219) do
   create_table "concerts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "events", force: :cascade do |t|
-    t.text     "artists",     default: [],              array: true
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.datetime "start"
-    t.datetime "end"
-    t.string   "city"
-    t.string   "country"
-    t.string   "state"
-    t.string   "event_name"
-    t.integer  "event_id"
-    t.string   "venue_name"
-    t.integer  "venue_id"
-    t.string   "region_name"
-    t.integer  "region_id"
   end
 
   create_table "examples", force: :cascade do |t|

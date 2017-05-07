@@ -13,12 +13,12 @@ class LocationGeo < ActiveRecord::Base
   end
 
   def result
-    @clean = @body['resultsPage']['results']['location']
-    @clean.each_index do |i|
-      @clean[i][:metro_area] = @clean[i]['metroArea']
-      @location_id = @clean[i]['metroArea']['id']
-      @clean[i][:id] = @location_id
+    @response = @body['resultsPage']['results']['location']
+    @response.each_index do |i|
+      @response[i][:metro_area] = @response[i]['metroArea']
+      @location_id = @response[i]['metroArea']['id']
+      @response[i][:id] = @location_id
     end
-    @result = { 'location_geo' => @clean }
+    @result = { 'location_geo' => @response }
   end
 end

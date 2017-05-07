@@ -38,42 +38,41 @@ class Region
         'total_entries' => @body['resultsPage']['totalEntries']
       }
       @response[:meta] = @meta
-      @result = { 'region' => @response }
+      return @result = { 'region' => @response }
     else
-      @clean = @body['resultsPage']['results']
-      @clean[:id] = @id.to_f
+      @response[:id] = @id.to_f
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] /
         @per_page.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
-      @clean[:meta] = @meta
+      @response[:meta] = @meta
 
-      @clean['event'].each_index do |i|
-        @first_performance = @clean['event'][i]['performance'].first
+      @response['event'].each_index do |i|
+        @first_performance = @response['event'][i]['performance'].first
         unless @first_performance.nil?
           @headline_artist = @first_performance['artist']['id']
-          @clean['event'][i][:headlineArtist] = @headline_artist
+          @response['event'][i][:headlineArtist] = @headline_artist
         end
       end
-      @clean['event'].each_index do |i|
-        @venue_id = @clean['event'][i]['venue']['id']
-        @clean['event'][i]['venue'][:venueImg] = 'https://images.sk-static.com/images/media/profile_images/venues/' +
+      @response['event'].each_index do |i|
+        @venue_id = @response['event'][i]['venue']['id']
+        @response['event'][i]['venue'][:venueImg] = 'https://images.sk-static.com/images/media/profile_images/venues/' +
         @venue_id.to_s + '/col4'
-        @clean['event'][i]['performance'].each_index do |j|
-          @artist = @clean['event'][i]['performance'][j]['artist']
+        @response['event'][i]['performance'].each_index do |j|
+          @artist = @response['event'][i]['performance'][j]['artist']
           @artist[:imageUrl] =
           'https://images.sk-static.com/images/media/profile_images/artists/' +
           @artist['id'].to_s + '/huge_avatar'
         end
-        if @clean['event'][i]['type'] == 'Festival'
-          @clean['event'][i][:imageUrl] =
+        if @response['event'][i]['type'] == 'Festival'
+          @response['event'][i][:imageUrl] =
             'https://images.sk-static.com/images/media/profile_images/events/' +
-            @clean['event'][i]['id'].to_s + '/huge_avatar'
+            @response['event'][i]['id'].to_s + '/huge_avatar'
         end
       end
-      @result = { 'region' => @clean }
+      @result = { 'region' => @response }
     end
   end
 end

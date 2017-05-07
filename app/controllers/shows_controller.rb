@@ -1,6 +1,5 @@
 class ShowsController < OpenReadController
   before_action :set_show, only: [:show, :update, :destroy]
-
   # GET /shows
   # GET /shows.json
   def index
@@ -17,21 +16,16 @@ class ShowsController < OpenReadController
 
   # POST /shows
   # POST /shows.json
-  def errors
-
-  end
-
   def create
     @show = Show.create(show_params)
 
     if @show.valid?
       render json: @show, status: :created, location: @show
     else
-
-      @dupe = Show.where('event_id = :event_id', event_id: show_params[:event_id])
-
+      @dupe = Show.where(
+        'event_id = :event_id', event_id: show_params[:event_id]
+      )
       render json: { errors: @dupe }, status: :found
-      # render json: { errors: @show.errors }, status: :im_used
     end
   end
 
@@ -39,7 +33,6 @@ class ShowsController < OpenReadController
   # PATCH/PUT /shows/1.json
   def update
     @show = Show.find(params[:id])
-
     if @show.update(show_params)
       head :no_content
     else
@@ -51,7 +44,6 @@ class ShowsController < OpenReadController
   # DELETE /shows/1.json
   def destroy
     @show.destroy
-
     head :no_content
   end
 

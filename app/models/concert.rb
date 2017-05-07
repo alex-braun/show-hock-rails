@@ -13,19 +13,19 @@ class Concert < ActiveRecord::Base
   end
 
   def result
-    @clean = @body['resultsPage']['results']['event']
-    @clean[:display_name] = @clean['displayName']
-    @clean[:image_url] =
+    @response = @body['resultsPage']['results']['event']
+    @response[:display_name] = @response['displayName']
+    @response[:image_url] =
     'https://images.sk-static.com/images/media/profile_images/events/' +
     @normalize.to_s + '/huge_avatar'
-    @clean['performance'].each_index do |j|
-      @artist_url = @clean['performance'][j]['artist']
+    @response['performance'].each_index do |j|
+      @artist_url = @response['performance'][j]['artist']
       @artist_url[:image_url] =
       'https://images.sk-static.com/images/media/profile_images/artists/' +
       @artist_url['id'].to_s + '/huge_avatar'
     end
     @result = {
-      'concert' => @clean
+      'concert' => @response
     }
   end
 end

@@ -34,16 +34,15 @@ class RegionSearch
         'total_entries' => 0
       }
       @response[:meta] = @meta
-      @result = { 'region_search' => @response }
+      return @result = { 'region_search' => @response }
     else
-      @clean = @body['resultsPage']['results']
-      @clean[:id] = @region_name.to_s
-      @clean['location'].each_index do |i|
-        @clean['location'][i][:type] = 'region'
-        @clean['location'][i][:id] = @clean['location'][i]['metroArea']['id']
-        @metro_area = @clean['location'][i]['metroArea']
-        @lat = @clean['location'][i]['metroArea']['lat']
-        @lng = @clean['location'][i]['metroArea']['lng']
+      @response[:id] = @region_name.to_s
+      @response['location'].each_index do |i|
+        @response['location'][i][:type] = 'region'
+        @response['location'][i][:id] = @response['location'][i]['metroArea']['id']
+        @metro_area = @response['location'][i]['metroArea']
+        @lat = @response['location'][i]['metroArea']['lat']
+        @lng = @response['location'][i]['metroArea']['lng']
         @metro_area[:googleMapUrl] =
           'https://maps.googleapis.com/maps/api/staticmap?center=' +
           @lat.to_s + ',' + @lng.to_s +
@@ -60,8 +59,8 @@ class RegionSearch
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
-      @clean[:meta] = @meta
-      @result = { 'region_search' => @clean }
+      @response[:meta] = @meta
+      @result = { 'region_search' => @response }
     end
   end
 end

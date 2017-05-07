@@ -11,17 +11,17 @@ class Venue < ActiveRecord::Base
   end
 
   def result
-    @clean = @body['resultsPage']['results']['venue']
-    @lat = @clean['lat']
-    @lng = @clean['lng']
-    @clean[:display_name] = @clean['displayName']
-    @clean[:metro_area] = @clean['metroArea']
-    @clean[:image_url] =
+    @response = @body['resultsPage']['results']['venue']
+    @lat = @response['lat']
+    @lng = @response['lng']
+    @response[:display_name] = @response['displayName']
+    @response[:metro_area] = @response['metroArea']
+    @response[:image_url] =
     'https://images.sk-static.com/images/media/profile_images/venues/' +
-    @clean['id'].to_s + '/col4'
+    @response['id'].to_s + '/col4'
     if @lat.nil? || @lng.nil?
-      @clean[:no_coords] = true
+      @response[:no_coords] = true
     end
-    @result = { 'venue' => @clean }
+    @result = { 'venue' => @response }
   end
 end

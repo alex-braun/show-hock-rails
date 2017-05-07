@@ -4,7 +4,7 @@ class CalendarSerializer < ActiveModel::Serializer
              :user,
              :show,
              :show_id,
-             :isDone,
+             :is_done,
              :event_id,
              :end_date
             #  :start_date

@@ -27,23 +27,22 @@ class SimilarArtist < ActiveRecord::Base
         'total_entries' => @body['resultsPage']['totalEntries']
       }
       @response[:meta] = @meta
-      @result = { 'similar_artist' => @response }
+      return @result = { 'similar_artist' => @response }
     else
-      @clean = @body['resultsPage']['results']
-      @clean[:id] = @param.to_f
+      @response[:id] = @param.to_f
       @meta = {
         'total_pages' => (@body['resultsPage']['totalEntries'] / 10.to_f).ceil,
         'current_page' => @body['resultsPage']['page'],
         'total_entries' => @body['resultsPage']['totalEntries']
       }
-      @clean['artist'].each_index do |i|
-        @id = @clean['artist'][i]['id']
-        @clean['artist'][i][:imageUrl] =
+      @response['artist'].each_index do |i|
+        @id = @response['artist'][i]['id']
+        @response['artist'][i][:imageUrl] =
           'https://images.sk-static.com/images/media/profile_images/artists/' +
           @id.to_s + '/huge_avatar'
       end
-      @clean[:meta] = @meta
-      @result = { 'similar_artist' => @clean }
+      @response[:meta] = @meta
+      @result = { 'similar_artist' => @response }
     end
   end
 end

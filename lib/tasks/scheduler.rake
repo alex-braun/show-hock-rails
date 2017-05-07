@@ -14,5 +14,8 @@ end
 task ping_dyno: :environment do
   require 'unirest'
   @ping_url = Rails.application.secrets.ping_url
-  Unirest.get @ping_url
+  Unirest.get @ping_url,
+              headers: {
+                'Accept' => 'application/json'
+              }
 end
