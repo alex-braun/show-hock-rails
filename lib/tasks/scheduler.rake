@@ -11,11 +11,18 @@ task remove_calendars: :environment do
   @calendars.delete_all
 end
 
+# task ping_dyno: :environment do
+#   require 'unirest'
+#   @ping_url = Rails.application.secrets.ping_url
+#   Unirest.get @ping_url,
+#               headers: {
+#                 'Accept' => 'application/json'
+#               }
+# end
+
 task ping_dyno: :environment do
-  require 'unirest'
-  @ping_url = Rails.application.secrets.ping_url
-  Unirest.get @ping_url,
-              headers: {
-                'Accept' => 'application/json'
-              }
+   ping_url = Rails.application.secrets.ping_url
+   uri = URI.parse(ping_url)
+   Net::HTTP.get(uri)
+   puts ping_url
 end
