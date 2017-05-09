@@ -6,7 +6,8 @@ class CalendarSerializer < ActiveModel::Serializer
              :show_id,
              :is_done,
              :event_id,
-             :end_date
+             :end_date,
+             :expired
             #  :start_date
 
   def user
