@@ -3,6 +3,8 @@ desc 'Set show expired attr to true, remove old calendars if date has passed'
 task expired_shows: :environment do
   @shows = Show.where('end_date < ?', Date.today)
   @shows.update_all(expired: true)
+  @calendars = Calendar.where('end_date < ?', Date.today)
+  @calendars.update_all(expired: true)
 end
 
 task remove_calendars: :environment do
