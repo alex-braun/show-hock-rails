@@ -26,6 +26,7 @@ class Artist < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @get_id.to_f
+      @response[:no_match] = true
       @artist_name = { 'displayName' => 'No Events for the artist' }
       @event = { 'performance' => @artist_name,
                  'noMatch' => true }
