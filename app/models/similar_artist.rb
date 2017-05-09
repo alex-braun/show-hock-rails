@@ -16,7 +16,7 @@ class SimilarArtist < ActiveRecord::Base
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @param.to_f
-      @response[:noMatch] = true
+      @response[:no_match] = true
       @artist_name = 'No similar artists listed'
       @artist = { 'displayName' => @artist_name,
                   'noMatch' => true }

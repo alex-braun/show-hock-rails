@@ -24,7 +24,7 @@ class ArtistSearch
     if @response == {}
       @display_name = { 'displayName' => @artist.to_s }
       @response[:id] = @artist.to_s
-      @response[:noMatch] = true
+      @response[:no_match] = true
       @band = { 'artist' => @display_name,
                 'noMatch' => true }
       @response[:artist] = [@band]

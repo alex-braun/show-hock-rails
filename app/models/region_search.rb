@@ -23,7 +23,7 @@ class RegionSearch
     @response = @body['resultsPage']['results']
     if @response == {}
       @response[:id] = @region_name.to_s
-      @response[:noMatch] = true
+      @response[:no_match] = true
       @display_name = { 'displayName' => @region_name.to_s }
       @metro = { 'metroArea' => @display_name,
                  'noMatch' => true }
