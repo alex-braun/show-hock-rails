@@ -15,6 +15,7 @@ class Concert < ActiveRecord::Base
   def result
     @response = @body['resultsPage']['results']['event']
     @response[:display_name] = @response['displayName']
+    @response[:age_restriction] = @response['ageRestriction']
     @response[:image_url] =
     'https://images.sk-static.com/images/media/profile_images/events/' +
     @normalize.to_s + '/huge_avatar'
